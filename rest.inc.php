@@ -122,7 +122,7 @@ class REST {
 		return $clean_input;
 	}
 
-	private function set_headers() {
+	private function set_headers($headers) {
 		header( "HTTP/1.1 ".$this->_code." ".$this->get_status_message() );
 		header( "Content-Type:".$this->_content_type );
 		if ($headers != null){
