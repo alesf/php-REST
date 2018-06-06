@@ -22,9 +22,9 @@ class REST {
 		return $_SERVER['HTTP_REFERER'];
 	}
 
-	public function response( $data, $status ) {
+	public function response( $data, $status, $headers=null ) {
 		$this->_code = ( $status )?$status:200;
-		$this->set_headers();
+		$this->set_headers($headers);
 		echo $data;
 		exit;
 	}
@@ -72,6 +72,7 @@ class REST {
 			415 => 'Unsupported Media Type',
 			416 => 'Requested Range Not Satisfiable',
 			417 => 'Expectation Failed',
+			426 => 'Upgrade Required',
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
 			502 => 'Bad Gateway',
@@ -124,6 +125,11 @@ class REST {
 	private function set_headers() {
 		header( "HTTP/1.1 ".$this->_code." ".$this->get_status_message() );
 		header( "Content-Type:".$this->_content_type );
+		if ($headers != null){
+			foreach ($headers as &$value) {
+				header($value);
+			}
+		}
 	}
 
 }
